@@ -7,13 +7,16 @@ using namespace std;
 
 string changeB(string str);
 string changeM(string str);
+string changeA(string str);
+
+string checkAll(string str);
 
 string changeB(string str) {
 	if (str == "bin" || str == "Bin" || str == "b") {
-		str = "B";
+		str = "";
 	}
 	else if (str == "binti" || str == "Binti" || str == "bt") {
-		str = "Bt";
+		str = "";
 	}
 
 	return str;
@@ -21,7 +24,7 @@ string changeB(string str) {
 
 string changeM(string str) {
 	if (str == "Mohamad" || str == "Mohamed" || str == "Muhamad" || str == "Muhammad" 
-		|| str == "Muhd" || str == "Mohd") {
+		|| str == "Muhd" || str == "Mohd" || str == "Md") {
 		str = "M";
 	}
 
@@ -33,6 +36,14 @@ string changeA(string str) {
 	if (str == "Abdul" || str == "Abd" || str == "Ab") {
 		str = "A";
 	}
+
+	return str;
+}
+
+string checkAll(string str) {
+	str = changeB(str);
+	str = changeM(str);
+	str = changeA(str);
 
 	return str;
 }
@@ -50,12 +61,20 @@ int main(int argc, char* argv) {
 		for (string line; getline(fin, line);) {
 			istringstream iss(line);
 			while (iss >> str) {
-				str = changeB(str);
-				str = changeM(str);
-				str = changeA(str);
+				string str2;
 
-				if (str[0] != '(') {
-					fout << str << " ";
+				for (auto it : str) {
+					if (!(('A' <= it && it <= 'Z') || ('a' <= it && it <= 'z'))) {
+						continue;
+					}
+					else {
+						str2 += it;
+					}
+				}
+				str2 = checkAll(str2);
+
+				if (str[0] != '(' && str2 != "") {
+					fout << str2 << " ";
 				}
 				else {
 					continue;
